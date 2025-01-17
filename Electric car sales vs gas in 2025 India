@@ -1,0 +1,152 @@
+# Electric-car-sales-vs-gas-in-2025-India- 
+To analyze and compare the sales of electric cars versus gasoline cars in India in 2025, we can use Python with libraries such as pandas for data manipulation, matplotlib and seaborn for visualization, and scikit-learn for any predictive modeling if needed. Below is a step-by-step guide to conduct this analysis.
+
+Step 1: Import Necessary Libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+Step 2: Load the Dataset
+Assume we have a CSV file named car_sales_2025_india.csv with columns: Car_Type (Electric or Gas), Sales, and other relevant features.
+
+# Load the dataset
+df = pd.read_csv('car_sales_2025_india.csv')
+
+# Display the first few rows of the dataframe
+print(df.head())
+Public code references from 1 repository
+Step 3: Data Preprocessing
+Check for missing values and handle them if necessary.
+
+# Check for missing values
+print(df.isnull().sum())
+
+# Example of handling missing values (if any)
+df = df.dropna()  # Drop rows with missing values
+Step 4: Analysis and Visualization
+Sales Comparison
+Compare the total sales of electric cars versus gasoline cars.
+
+# Group by Car_Type and sum the sales
+sales_comparison = df.groupby('Car_Type')['Sales'].sum().reset_index()
+
+# Plot the comparison
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Car_Type', y='Sales', data=sales_comparison)
+plt.xlabel('Car Type')
+plt.ylabel('Total Sales')
+plt.title('Electric vs Gasoline Car Sales in India (2025)')
+plt.show()
+Monthly Sales Trend
+Assume there is a column Month in the dataset to analyze monthly sales trends.
+
+# Group by Month and Car_Type, and sum the sales
+monthly_sales = df.groupby(['Month', 'Car_Type'])['Sales'].sum().unstack()
+
+# Plot the monthly sales trend
+monthly_sales.plot(kind='line', figsize=(12, 8))
+plt.xlabel('Month')
+plt.ylabel('Total Sales')
+plt.title('Monthly Car Sales Trend in India (2025)')
+plt.legend(title='Car Type')
+plt.show()
+Step 5: Predictive Analysis (Optional)
+If you want to predict future sales trends, you can use a time series forecasting model such as ARIMA or a regression model.
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Example regression model for predicting sales
+# Assume we have features like 'Month', 'Car_Type', 'Economic_Indicators', etc.
+
+# Encode categorical variables
+df['Car_Type'] = df['Car_Type'].astype('category').cat.codes
+df['Month'] = df['Month'].astype('category').cat.codes
+
+# Select features and target variable
+X = df.drop('Sales', axis=1)
+y = df['Sales']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize and train the model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f'Mean Squared Error: {mse}')
+print(f'R-squared: {r2}')
+Public code references from 1 repository
+Complete Code
+Here is the complete code for analyzing and comparing electric car sales versus gasoline car sales in India in 2025:
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Load the dataset
+df = pd.read_csv('car_sales_2025_india.csv')
+
+# Check for missing values
+print(df.isnull().sum())
+
+# Drop rows with missing values
+df = df.dropna()
+
+# Group by Car_Type and sum the sales
+sales_comparison = df.groupby('Car_Type')['Sales'].sum().reset_index()
+
+# Plot the comparison
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Car_Type', y='Sales', data=sales_comparison)
+plt.xlabel('Car Type')
+plt.ylabel('Total Sales')
+plt.title('Electric vs Gasoline Car Sales in India (2025)')
+plt.show()
+
+# Group by Month and Car_Type, and sum the sales
+monthly_sales = df.groupby(['Month', 'Car_Type'])['Sales'].sum().unstack()
+
+# Plot the monthly sales trend
+monthly_sales.plot(kind='line', figsize=(12, 8))
+plt.xlabel('Month')
+plt.ylabel('Total Sales')
+plt.title('Monthly Car Sales Trend in India (2025)')
+plt.legend(title='Car Type')
+plt.show()
+
+# Encode categorical variables
+df['Car_Type'] = df['Car_Type'].astype('category').cat.codes
+df['Month'] = df['Month'].astype('category').cat.codes
+
+# Select features and target variable
+X = df.drop('Sales', axis=1)
+y = df['Sales']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize and train the model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print(f'Mean Squared Error: {mse}')
+print(f'R-squared: {r2}')
+
+This example covers data loading, preprocessing, visualization, and basic regression modeling to predict future trends. Adjust the dataset and features according to your specific data and requirements.
